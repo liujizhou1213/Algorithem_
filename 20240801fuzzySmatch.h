@@ -22,9 +22,10 @@ std::vector<std::wstring> main_fuzzySmatch() {
    {L"九十一", 91}, {L"九十二", 92}, {L"九十三", 93}, {L"九十四", 94}, {L"九十五", 95}, {L"九十六", 96}, {L"九十七", 97}, {L"九十八", 98}, {L"九十九", 99},
    {L"一百", 100},
   };
-  std::wstring text = L"五十六~四十七简图、7.5 12.0气层、2至70层、十二层不知道和九十九层、一百零六配筋简图";
+  std::wstring text = L"负五十六~四十七简图、-7.5 12.0气层、2至70层、十二层不知道和九十九层、一百零六配筋简图";
   // 使用正则表达式匹配中文数字
-  std::wregex pattern(L"[零一二三四五六七八九十百千万]+|\\d+(\\.\\d+)?|\\d+[-至~到]+\\d+(\\.\\d+)?");
+  //std::wregex pattern(L"[负零一二三四五六七八九十百千万]+|-?\\d+(\\.\\d+)?|\\d+[-至~到]+\\d+(\\.\\d+)?");
+  std::wregex pattern(L"[负零一二三四五六七八九十百千万]+|-?\\d+(\\.\\d+)?|-?\\d+[-至~到]+-?\\d+(\\.\\d+)?");
   auto words_begin = std::wsregex_iterator(text.begin(), text.end(), pattern);
   auto words_end = std::wsregex_iterator();
   std::vector<std::wstring> _vecDigtal;
@@ -34,7 +35,7 @@ std::vector<std::wstring> main_fuzzySmatch() {
     std::wstring match_str = match.str();
 
     // 打印所有匹配的字符串
-    if (std::regex_search(match_str, std::wregex(L"\\d+")))
+    if (std::regex_search(match_str, std::wregex(L"-?\\d+")))
     {
       _vecDigtal.emplace_back(match_str);
     }
